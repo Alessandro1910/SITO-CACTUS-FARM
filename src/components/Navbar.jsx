@@ -1,18 +1,14 @@
+import { Link } from "react-router-dom"
+
 const Navbar = () => {
 
     return (
       <>
-      <nav>
-        <div>
-            <Link to='/'>About</Link>
+        <div className='flex mt-12 ml-26 space-x-4'>
+            <Link className='text-sm mx-6' to='/'>Home</Link>
+            <Link className='text-sm mx-6' to='/About'>About</Link>
+            <Link className='text-sm mx-6' to='/Profile'>Profile</Link>
         </div>
-        <div>
-            <Link to='/home'>Home</Link>
-        </div>
-        <div>
-            <Link to='/Profile'>Profile</Link>
-        </div>
-      </nav>
       </>
     )
   }

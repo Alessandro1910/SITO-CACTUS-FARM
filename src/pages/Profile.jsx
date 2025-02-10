@@ -2,7 +2,7 @@ const Profile = () => {
 
   return (
     <>
-      <h1>Cactus Farm</h1>
+      <h1>Cactus Farm Profile</h1>
       </>
   )
 }

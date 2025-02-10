@@ -2,7 +2,7 @@ const About = () => {
 
   return (
     <>
-   <h1>Cactus Farm</h1>
+   <h1>Cactus Farm About</h1>
     </>
   )
 }
