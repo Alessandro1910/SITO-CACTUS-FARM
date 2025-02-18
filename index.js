@@ -134,7 +134,7 @@ Persona2.bio(); */
 
 // Classi ed Ereditarietà 
 
-/*function Persona(nome, cognome, eta, genere, interessi) {
+function Persona(nome, cognome, eta, genere, interessi) {
     this.nome =  nome;
     this.cognome = cognome;
     this.eta = eta;
@@ -154,19 +154,30 @@ function Insegnante (nome, cognome, eta, genere, interessi, materia) {
     };
 };
 
-const insegnante = new Insegnante ('Anna', 'Blu', 32, 'Donna', ['Netflix'], 'Storia');
+/*const insegnante = new Insegnante ('Anna', 'Blu', 32, 'Donna', ['Netflix'], 'Storia');
 console.log(insegnante);
-insegnante.saluta();
-*/
+insegnante.saluta();*/
+
 
 //JSON
-let requestURL = './index.json';
+/*let requestURL = './index.json';
 let request  = new XMLHttpRequest();
 request.open('GET', requestURL);
-request.responseType = 'JSON';
+request.responseType = 'json';
 request.send();
 
 request.onload = function(){
     const classe = request.response;
-    console.log(classe.insegnanti[1]);
-}
+    console.log(classe.insegnanti[0].cognome);
+}*/
+
+//Codice Asincrono 
+
+fetch('index.json').then(function (response) {   // tramite fetch prenderò dati dalla index.json dopo di che vorro ricevere una risposta che sara
+    return response.json();         // in formato json,dopo di che ancora con ".then", prendero questo contenuto json e lo assegno ad una costante
+}).then(function (json) {            // Elementi = json e stamperò a video con console.log('Dati: ', classe), con il catch gestiro l'errore qualora
+    Elementi = json;                 //ci sia un errore nel passaggio dati
+    console.log('Elementi: ', Elementi);
+}).catch(function (err) {
+    console.log('Fetch problem: '+ err.message);
+});

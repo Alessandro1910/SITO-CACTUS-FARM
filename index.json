@@ -1,26 +1,24 @@
 {
     "nome":"4A",
     "numeroAlunni":21,
-    "scuolaSabato":"False",
+    "scuolaSabato": false,
     "scuola":"Scuola Elementare Miao",
     "insegnanti":[
        {
           "nome":"Paola",
           "cognome":"Rossi",
-          "materiaInsegnante":[
-             "Storia",
-             "Italiano",
-             "Geografia"
-          ]
+          "eta": "25",
+          "genere": "Donna",
+          "materia":"Storia",
+          "interessi": ""
        },
        {
           "nome":"Francesca",
           "cognome":"Valestra",
-          "materiaInsegnante":[
-             "Matematica",
-             "Scienze",
-             "Fisica"
-          ]
+          "eta": "25",
+          "genere": "Donna",
+          "materia":"Matematica",
+          "interessi": ""
        }
     ],
     "alunni":[
