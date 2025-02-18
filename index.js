@@ -91,7 +91,9 @@ Persona.interessi[2] = 'ballare';
 
 console.log(Persona.interessi[2]); */
 
-function calcolaEta(nascitaStringa) {
+// Programmazione ad oggetti 
+
+/*function calcolaEta(nascitaStringa) {
     const oggi = new Date(); // Data corrente
     const dataDiNascita = new Date(nascitaStringa); // Esempio di data di nascita
     
@@ -128,4 +130,43 @@ const Persona1 = new Persona('Luca', 'Forte', '2000-10-15', 'Maschio', 'Basket')
 const Persona2 = new Persona('Ludovica', 'Renna', '1996-11-10', 'Ragazza', 'Pallavolo');
 
 Persona1.bio();
-Persona2.bio(); 
+Persona2.bio(); */
+
+// Classi ed Ereditarietà 
+
+/*function Persona(nome, cognome, eta, genere, interessi) {
+    this.nome =  nome;
+    this.cognome = cognome;
+    this.eta = eta;
+    this.genere = genere;
+    this.interessi = interessi;
+    this.saluta = function() {
+        console.log(`ciao sono ${this.nome}`);
+    };
+};
+
+function Insegnante (nome, cognome, eta, genere, interessi, materia) {
+    Persona.call(this, nome, cognome, eta, genere, interessi)
+
+    this.materia = materia;
+    this.saluta = function() {
+        console.log(`ciao sono ${this.nome} ${this.cognome}`);
+    };
+};
+
+const insegnante = new Insegnante ('Anna', 'Blu', 32, 'Donna', ['Netflix'], 'Storia');
+console.log(insegnante);
+insegnante.saluta();
+*/
+
+//JSON
+let requestURL = './index.json';
+let request  = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'JSON';
+request.send();
+
+request.onload = function(){
+    const classe = request.response;
+    console.log(classe.insegnanti[1]);
+}
