@@ -91,36 +91,41 @@ Persona.interessi[2] = 'ballare';
 
 console.log(Persona.interessi[2]); */
 
-function Persona(nome, cognome, nascitaStringa, genere, interessi) {
-    
-    this.nome = nome;
-    this.cognome = cognome;
-    this.nascitaStringa = nascitaStringa;
-    this.genere = genere;
-    this.interessi = interessi;
-
-
+function calcolaEta(nascitaStringa) {
     const oggi = new Date(); // Data corrente
-    const dataDiNascita = new Date(this.nascitaStringa); // Esempio di data di nascita
-
+    const dataDiNascita = new Date(nascitaStringa); // Esempio di data di nascita
+    
     let eta = oggi.getFullYear() - dataDiNascita.getFullYear();
     const meseCorrente = oggi.getMonth();
     const giornoCorrente = oggi.getDate();
     const meseDiNascita = dataDiNascita.getMonth();
     const giornoDiNascita = dataDiNascita.getDate();
-
+    
     if (meseCorrente < meseDiNascita || (meseCorrente === meseDiNascita && giornoCorrente < giornoDiNascita)) {
         eta--; // Decrementa l'età se il compleanno non è ancora passato quest'anno
     }
 
-    this.bio = function () {
-        console.log(`${this.nome} ${this.cognome} e ${(this.genere == 'Maschio') ? 'un ragazzo' : 'una ragazza'} di 
-        ${eta} anni a cui piace ${this.interessi}`);
-    }
-};
+    return eta
+}
 
-const Persona1 = new Persona('Luca', 'Forte','2000-10-19', 'Maschio', 'Basket');
-const Persona2 = new Persona('Ludovica', 'Renna','1999-11-10', 'Ragazza', 'Pallavolo');
+
+
+function Persona(nome, cognome, nascitaStringa, genere, interessi) {
+
+    this.nome = nome;
+    this.cognome = cognome;
+    this.nascitaStringa = nascitaStringa;
+    this.genere = genere;
+    this.interessi = interessi;
+    this.eta = calcolaEta(nascitaStringa);
+
+    this.bio = function () {
+        console.log(`${this.nome} ${this.cognome} è ${(this.genere === 'Maschio') ? 'un ragazzo' : 'una ragazza'} di ${this.eta} anni a cui piace ${this.interessi}`);
+    };
+}
+
+const Persona1 = new Persona('Luca', 'Forte', '2000-10-15', 'Maschio', 'Basket');
+const Persona2 = new Persona('Ludovica', 'Renna', '1996-11-10', 'Ragazza', 'Pallavolo');
 
 Persona1.bio();
-Persona2.bio();
+Persona2.bio(); 
