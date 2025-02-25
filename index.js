@@ -134,7 +134,7 @@ Persona2.bio(); */
 
 // Classi ed Ereditarietà 
 
-function Persona(nome, cognome, eta, genere, interessi) {
+/*function Persona(nome, cognome, eta, genere, interessi) {
     this.nome =  nome;
     this.cognome = cognome;
     this.eta = eta;
@@ -150,13 +150,14 @@ function Insegnante (nome, cognome, eta, genere, interessi, materia) {
 
     this.materia = materia;
     this.saluta = function() {
-        console.log(`ciao sono ${this.nome} ${this.cognome}`);
+        super.saluta();
+     //   console.log(`ciao sono ${this.nome} ${this.cognome}, e ho ${this.eta} anni e sono ${this.genere}`);
     };
-};
+};*/
 
-/*const insegnante = new Insegnante ('Anna', 'Blu', 32, 'Donna', ['Netflix'], 'Storia');
-console.log(insegnante);
-insegnante.saluta();*/
+// const insegnante = new Insegnante ('Anna', 'Blu', 32, 'Donna', ['Netflix'], 'Storia');
+// console.log(insegnante);
+// insegnante.saluta();
 
 
 //JSON
@@ -173,11 +174,210 @@ request.onload = function(){
 
 //Codice Asincrono 
 
-fetch('index.json').then(function (response) {   // tramite fetch prenderò dati dalla index.json dopo di che vorro ricevere una risposta che sara
+/*fetch('index.json').then(function (response) {   // tramite fetch prenderò dati dalla index.json dopo di che vorro ricevere una risposta che sara
     return response.json();         // in formato json,dopo di che ancora con ".then", prendero questo contenuto json e lo assegno ad una costante
 }).then(function (json) {            // Elementi = json e stamperò a video con console.log('Dati: ', classe), con il catch gestiro l'errore qualora
     Elementi = json;                 //ci sia un errore nel passaggio dati
     console.log('Elementi: ', Elementi);
 }).catch(function (err) {
     console.log('Fetch problem: '+ err.message);
-});
+});*/
+
+
+//CODICE ASINCRONO CON FETCH DALL INTERNO
+
+// fetch('index.json').then(function (response) {   
+//     return response.json();         
+// }).then(json => { 
+//     let dati = json.insegnanti;         
+//    dati.forEach( res => {
+//         let insegnante = new Insegnante(res.nome, res.cognome, res.eta, res.genere, res.interessi, res.materia);
+//         insegnante.saluta();  
+//     })        
+// }).catch(function (err) {
+//     console.log('Fetch problem: ');
+// });
+
+// PROMISE
+
+// function timeoutPromise (message, interval) {
+//     return new Promise((resolve, reject) => {
+//         if (message === '' || typeof message != 'string') {
+//             reject ('message is not a string') 
+//         } else if (interval < 0 || typeof interval != 'number') {
+//             reject ('interval is not a number');
+//         } else setTimeout(function () {
+//             resolve(message);
+//         }, interval)
+//     });
+// };
+
+// timeoutPromise('Hello There', 5000)
+// .then(message => {
+//     alert(message);
+// })
+// .catch(error => {
+//     console.log('error: ' + error);
+// });
+
+//PROGRAMMARE A OGGETTI
+
+
+// // class Dish {
+// //     constructor(  nome, ingredienti,   ristorante, reviews) {
+// //         this.nome = nome;
+// //         this.ingredienti = ingredienti;
+// //         this.ristorante = ristorante;
+// //         this.reviews = this.reviews;
+// //     };
+
+
+// //     updateRating(newRecensione) {
+// //         if (newRecensione <= 5 && newRecensione >= 0) {
+// //             this.reviews = newRecensione;
+// //             console.log(`Nuova recensione per ${this.ristorante}: ${this.reviews}`);
+// //         } else {
+// //             console.log("La Recensione deve essere compresa tra 0 e 5.");
+// //         }
+// //     }
+// //     addIngredient(ingrediente) {
+// //         if (!this.ingredienti.includes(ingrediente)) {
+// //             this.ingredienti.push(ingrediente);
+// //             console.log(`Ingrediente aggiunto: ${this.ingredienti}`);
+// //         } else {
+// //             console.log("L'ingrediente è già presente nella lista.");
+// //         }
+// //     }
+// }
+
+// //let pizzaMarinara = new Dish('Pizza', ['Mozzarella', 'Basilico', 'Origano'], 'Ristorante Da Pulcinella', 4);
+// pizzaMarinara.updateRating(4.5);
+// pizzaMarinara.addIngredient('Pesto');
+// console.log(pizzaMarinara);
+
+
+class Dish {
+    constructor(nome, ingredienti, ristorante, reviews) {
+        this.nome = nome;
+        this.ingredienti = ingredienti;
+        this.ristorante = ristorante;
+        this.reviews = reviews;
+    }
+
+    calculateMedia() {
+        let somma = 0;
+        for (let i = 0; i < this.reviews.length; i++) {
+            somma += this.reviews[i];
+        }
+        return (somma / this.reviews.length).toFixed(2);
+    }
+
+    updateRating(newRecensione) {
+        if (newRecensione <= 5 && newRecensione >= 0) {
+            this.reviews.push(newRecensione);
+            console.log(`Nuova recensione per ${this.nome} e : ${this.calculateMedia()}`);
+        } else {
+            console.log("La Recensione deve essere compresa tra 0 e 5.");
+        }
+    }
+
+
+    addIngredient(ingrediente) {
+        if (!this.ingredienti.includes(ingrediente)) {
+            this.ingredienti.push(ingrediente);
+            console.log(`Ingrediente aggiunto: ${this.ingredienti}`);
+        } else {
+            console.log("L'ingrediente è già presente nella lista.");
+        }
+    }
+
+    toString() {
+        return this.nome + " | " + this.ristorante + " | " + this.calculateMedia() + " | ";
+    }
+}
+
+fetch('http://185.216.75.210:50080/api.php')
+    .then(response => response.json())
+    .then(json => {
+
+        let primoLivello = json.results;
+        console.log(primoLivello);
+        let listaDish = [];
+        primoLivello.forEach(function (res) {
+            let el = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+            listaDish.push(el);
+        });
+
+
+        console.log(listaDish);
+        listaDish.forEach(function (res) {
+            console.log(res.toString());
+        });
+    })
+    .catch(err => {
+        console.log('Error richiests API:', err)
+    });
+
+//     //function chiamataPizza(query = "pizza") {
+//         fetch('http://185.216.75.210:50080/api.php?q='+query)
+//             .then(response => response.json())
+//             .then(json => {
+//                 console.log("Risultati API:", json.results);
+//             })
+//             .catch(err => console.log("Errore API:", err));
+//     }
+
+//    // chiamataPizza();
+
+function cercaPiatti() {
+    let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
+    // SI RICOLLEGA ALL'API E RISALE AI DATI CHE HA DENTRO
+    chiamataPizza(query).then(piatti => {
+        console.log(piatti);
+        risultatiPagina(piatti);
+    });
+};
+
+    // mi permette di salvarmi la lista dati che ricevo
+    function chiamataPizza(query) {
+        return fetch('http://185.216.75.210:50080/api.php?q=' + query)
+            .then(response => response.json())
+            .then(json => {
+                let listaData = json.results;
+
+                let listaDish = [];
+                listaData.forEach(function (res) {
+                    let elementi = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+                    listaDish.push(elementi);
+                });
+                console.log(listaDish);
+                return listaDish;
+
+            })
+            .catch(err => console.log("Errore API:", err));
+    }
+
+    function risultatiPagina(piatti) {
+        let risposte = document.getElementById("risultati"); //VADO A CREARE UNA VARIABILE CHE SI COLLEGA TRAMITE 'ID' AL DIV RISULTATI
+        risposte.innerHTML = "";   //PULISCE I CAMPI DI TESTO PRECEDENTI
+        console.log(piatti);
+
+        piatti.forEach(piatto => {
+            let mostraPagina = document.createElement('div');
+            mostraPagina.innerHTML = `  
+            <h3>Nome Piatto:${piatto.nome}</h3>
+            <p>Ristorante: ${piatto.ristorante}</p>
+            <p>Ingredienti: ${piatto.ingredienti}</p>
+            <p>Media Recensioni: ${piatto.calculateMedia()}</p>
+            `;
+            risposte.appendChild(mostraPagina);
+        });
+    };
+//CON IL FOR EACH CICLO I DATI RICEVUTI E CON CREATE ELEMENT CREO UN DIV PER OGNUNO DI ESSI MI RICOLLEGO ALL OGGETTO DISH
+// E INFINE APPENDO IN PAGINA I RISULTATI PRESI TRAMITE LA VARIABILE RISPOSTE PASSANDO COME PARAMETRO mostraPagina che ha tutto all interno
+
+
+
+
+
+
