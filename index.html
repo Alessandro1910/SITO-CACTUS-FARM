@@ -5,13 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="container">
         <input type="text" id="cercaPietanze" placeholder="Cerca Pietanze">
-        <button onclick="cercaPiatti()">Cerca</button>
-    <div id="risultati"></div>
-
+        <br>
+        <button onclick="cercaPiatti()">Cerca Piatto</button>
+        <br>
+        <br>
+        <input type="text" id="cercaIngrediente" placeholder="Cerca Ingrediente">
+        <br>
+        <button onclick="cercaDishPerIngrediente()">Cerca Ingrediente</button>
+    </div>
+    <div id="risultati"></div> 
+    <div id="risultatiIngredienti"></div> 
 
     <script src="index.js"></script>
 </body>

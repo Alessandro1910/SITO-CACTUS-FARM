@@ -291,43 +291,36 @@ class Dish {
         }
     }
 
-    toString() {
-        return this.nome + " | " + this.ristorante + " | " + this.calculateMedia() + " | ";
-    }
+    //     toString() {
+    //         return this.nome + " | " + this.ristorante + " | " + this.calculateMedia() + " | ";
+    //     }
 }
 
-fetch('http://185.216.75.210:50080/api.php')
-    .then(response => response.json())
-    .then(json => {
+function fetchDishes() {
+    return fetch('http://185.216.75.210:50080/api.php')
+        .then(response => response.json())
+        .then(json => {
+            let primoLivello = json.results;
+            console.log(primoLivello);
+            let listaDish = [];
+            primoLivello.forEach(function (res) {
+                let el = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+                listaDish.push(el);
+            });
 
-        let primoLivello = json.results;
-        console.log(primoLivello);
-        let listaDish = [];
-        primoLivello.forEach(function (res) {
-            let el = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
-            listaDish.push(el);
+            return listaDish;
+            // console.log(listaDish);
+            // listaDish.forEach(function (res) {
+            //     console.log(res.toString());
+            // });
+        })
+        .catch(err => {
+            console.log('Error richiests API:', err);
+
+            return [];
         });
+}
 
-
-        console.log(listaDish);
-        listaDish.forEach(function (res) {
-            console.log(res.toString());
-        });
-    })
-    .catch(err => {
-        console.log('Error richiests API:', err)
-    });
-
-//     //function chiamataPizza(query = "pizza") {
-//         fetch('http://185.216.75.210:50080/api.php?q='+query)
-//             .then(response => response.json())
-//             .then(json => {
-//                 console.log("Risultati API:", json.results);
-//             })
-//             .catch(err => console.log("Errore API:", err));
-//     }
-
-//    // chiamataPizza();
 
 function cercaPiatti() {
     let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
@@ -338,46 +331,137 @@ function cercaPiatti() {
     });
 };
 
-    // mi permette di salvarmi la lista dati che ricevo
-    function chiamataPizza(query) {
-        return fetch('http://185.216.75.210:50080/api.php?q=' + query)
-            .then(response => response.json())
-            .then(json => {
-                let listaData = json.results;
 
-                let listaDish = [];
-                listaData.forEach(function (res) {
-                    let elementi = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
-                    listaDish.push(elementi);
-                });
-                console.log(listaDish);
-                return listaDish;
+// function cercaDishPerIngrediente() {
+//     let ingrediente = document.getElementById("cercaIngrediente").value;  // Ottieni l'ingrediente inserito dall'utente
+//     fetchDishes().then(piatti => {
+//         console.log(piatti);
+//         let piattiFiltrati = cercaPiattiConIngrediente(piatti, ingrediente);
+//         console.log("i piatti filtrati sono");
+//         console.log(piattiFiltrati);
+//     });
 
-            })
-            .catch(err => console.log("Errore API:", err));
+// }
+
+function cercaDishPerIngrediente() {
+    let ingrediente = document.getElementById("cercaIngrediente").value.trim();
+
+    if (ingrediente === "") {
+        document.getElementById("risultati").innerHTML = "Inserisci un ingrediente per la ricerca.";
+        return;
     }
 
-    function risultatiPagina(piatti) {
-        let risposte = document.getElementById("risultati"); //VADO A CREARE UNA VARIABILE CHE SI COLLEGA TRAMITE 'ID' AL DIV RISULTATI
-        risposte.innerHTML = "";   //PULISCE I CAMPI DI TESTO PRECEDENTI
-        console.log(piatti);
+    fetchDishes().then(piatti => {
+        console.log("I piatti in input sono:", piatti);
+        let piattiFiltrati = cercaPiattiConIngrediente(piatti, ingrediente);
+        console.log("I piatti filtrati sono:", piattiFiltrati);
+        risultatiIngredientiPagina(piattiFiltrati);
+        stampaIngredienti(piattiFiltrati);
+    });
+}
 
-        piatti.forEach(piatto => {
-            let mostraPagina = document.createElement('div');
-            mostraPagina.innerHTML = `  
+
+function cercaPiattiConIngrediente(dishes, ingredienteRichiesto) {
+    console.log("ricerca ingredienti nei piatti");
+    let nuovoArray = [];
+    dishes.forEach(piatto => {
+        console.log(`Piatto: ${piatto.nome}`);
+
+        let trovato = false;
+        piatto.ingredienti.forEach(ingrediente => {
+            let piattoPerNome = ingrediente.name.toLowerCase();
+            let ingredientePerRichiesta = ingredienteRichiesto.toLowerCase();
+            //console.log('-  Ingrediente ' + piattoPerNome + ' è uguale a ' + ingredientePerRichiesta + '?');
+            if (piattoPerNome == ingredientePerRichiesta) {
+               trovato = true;
+              // console.log(piatto.nome + ' contiene ' + piattoPerNome);
+            }
+        });
+        
+        if (trovato == true) {
+            nuovoArray.push(piatto)
+        }
+    });
+    console.log("piatti validi");
+    console.log(nuovoArray);
+    return nuovoArray;
+};
+
+
+
+// mi permette di salvarmi la lista dati che ricevo
+function chiamataPizza(query) {
+    return fetch('http://185.216.75.210:50080/api.php?q=' + query)
+        .then(response => response.json())
+        .then(json => {
+            let listaData = json.results;
+
+            let listaDish = [];
+            listaData.forEach(function (res) {
+                let elementi = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+                listaDish.push(elementi);
+            });
+            console.log(listaDish);
+            return listaDish;
+
+        })
+        .catch(err => console.log("Errore API:", err));
+}
+
+
+
+function risultatiPagina(piatti) {
+    let risposte = document.getElementById("risultati"); //VADO A CREARE UNA VARIABILE CHE SI COLLEGA TRAMITE 'ID' AL DIV RISULTATI
+    risposte.innerHTML = "";   //PULISCE I CAMPI DI TESTO PRECEDENTI
+    console.log(piatti);
+
+    piatti.forEach(piatto => {
+        let mostraPagina = document.createElement('div');
+        mostraPagina.innerHTML = `  
             <h3>Nome Piatto:${piatto.nome}</h3>
             <p>Ristorante: ${piatto.ristorante}</p>
-            <p>Ingredienti: ${piatto.ingredienti}</p>
+            <p>Ingredienti: ${piatto.ingredienti.join(',')}</p>
             <p>Media Recensioni: ${piatto.calculateMedia()}</p>
             `;
-            risposte.appendChild(mostraPagina);
-        });
+        risposte.appendChild(mostraPagina);
+    });
+};
+
+function risultatiIngredientiPagina(piatti) {
+    let risposte = document.getElementById("risultati");
+    risposte.innerHTML = "";
+    console.log(piatti);
+    if (piatti.length === 0) {
+        risposte.innerHTML = "<p>Nessun piatto trovato con questo ingrediente.</p>";
+        return;
     };
-//CON IL FOR EACH CICLO I DATI RICEVUTI E CON CREATE ELEMENT CREO UN DIV PER OGNUNO DI ESSI MI RICOLLEGO ALL OGGETTO DISH
+
+    piatti.forEach(piatto => {
+        let mostraPagina = document.createElement('div');
+        mostraPagina.innerHTML = `  
+            <h3>${piatto.nome}</h3>
+            <p>Ingredienti: ${piatto.ingredienti.join(', ')}</p>
+        `;
+        risposte.appendChild(mostraPagina);
+    });
+}
+
+function stampaIngredienti(ingredient) {
+    let risposteIngredienti = document.getElementById("risultatiIngredienti");
+    risposteIngredienti.innerHTML = "";
+
+    if (ingredient.length === 0) {
+        risposte.innerHTML = "<p>Nessun ingrediente trovato!</p>";
+        return;
+    }
+
+    ingredient.forEach(ingredientiPiatto => {
+        let mostraIngredienti = document.createElement('div');
+        mostraIngredienti.innerHTML = `  
+            <p>Ingredienti: ${ingredientiPiatto.join(', ')}</p>
+        `;
+        risposte.appendChild(mostraIngredienti);
+    });
+}
+// CON IL FOR EACH CICLO I DATI RICEVUTI E CON CREATE ELEMENT CREO UN DIV PER OGNUNO DI ESSI MI RICOLLEGO ALL OGGETTO DISH
 // E INFINE APPENDO IN PAGINA I RISULTATI PRESI TRAMITE LA VARIABILE RISPOSTE PASSANDO COME PARAMETRO mostraPagina che ha tutto all interno
-
-
-
-
-
-
