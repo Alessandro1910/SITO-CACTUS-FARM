@@ -256,80 +256,80 @@ request.onload = function(){
 // console.log(pizzaMarinara);
 
 
-class Dish {
-    constructor(nome, ingredienti, ristorante, reviews) {
-        this.nome = nome;
-        this.ingredienti = ingredienti;
-        this.ristorante = ristorante;
-        this.reviews = reviews;
-    }
+// class Dish {
+//     constructor(nome, ingredienti, ristorante, reviews) {
+//         this.nome = nome;
+//         this.ingredienti = ingredienti;
+//         this.ristorante = ristorante;
+//         this.reviews = reviews;
+//     }
 
-    calculateMedia() {
-        let somma = 0;
-        for (let i = 0; i < this.reviews.length; i++) {
-            somma += this.reviews[i];
-        }
-        return (somma / this.reviews.length).toFixed(2);
-    }
+//     calculateMedia() {
+//         let somma = 0;
+//         for (let i = 0; i < this.reviews.length; i++) {
+//             somma += this.reviews[i];
+//         }
+//         return (somma / this.reviews.length).toFixed(2);
+//     }
 
-    updateRating(newRecensione) {
-        if (newRecensione <= 5 && newRecensione >= 0) {
-            this.reviews.push(newRecensione);
-            console.log(`Nuova recensione per ${this.nome} e : ${this.calculateMedia()}`);
-        } else {
-            console.log("La Recensione deve essere compresa tra 0 e 5.");
-        }
-    }
+//     updateRating(newRecensione) {
+//         if (newRecensione <= 5 && newRecensione >= 0) {
+//             this.reviews.push(newRecensione);
+//             console.log(`Nuova recensione per ${this.nome} e : ${this.calculateMedia()}`);
+//         } else {
+//             console.log("La Recensione deve essere compresa tra 0 e 5.");
+//         }
+//     }
 
 
-    addIngredient(ingrediente) {
-        if (!this.ingredienti.includes(ingrediente)) {
-            this.ingredienti.push(ingrediente);
-            console.log(`Ingrediente aggiunto: ${this.ingredienti}`);
-        } else {
-            console.log("L'ingrediente è già presente nella lista.");
-        }
-    }
+//     addIngredient(ingrediente) {
+//         if (!this.ingredienti.includes(ingrediente)) {
+//             this.ingredienti.push(ingrediente);
+//             console.log(`Ingrediente aggiunto: ${this.ingredienti}`);
+//         } else {
+//             console.log("L'ingrediente è già presente nella lista.");
+//         }
+//     }
 
     //     toString() {
     //         return this.nome + " | " + this.ristorante + " | " + this.calculateMedia() + " | ";
     //     }
-}
+//}
 
-function fetchDishes() {
-    return fetch('http://185.216.75.210:50080/api.php')
-        .then(response => response.json())
-        .then(json => {
-            let primoLivello = json.results;
-            console.log(primoLivello);
-            let listaDish = [];
-            primoLivello.forEach(function (res) {
-                let el = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
-                listaDish.push(el);
-            });
+// function fetchDishes() {
+//     return fetch('http://185.216.75.210:50080/api.php')
+//         .then(response => response.json())
+//         .then(json => {
+//             let primoLivello = json.results;
+//             console.log(primoLivello);
+//             let listaDish = [];
+//             primoLivello.forEach(function (res) {
+//                 let el = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+//                 listaDish.push(el);
+//             });
 
-            return listaDish;
-            // console.log(listaDish);
-            // listaDish.forEach(function (res) {
-            //     console.log(res.toString());
-            // });
-        })
-        .catch(err => {
-            console.log('Error richiests API:', err);
+//             return listaDish;
+//             // console.log(listaDish);
+//             // listaDish.forEach(function (res) {
+//             //     console.log(res.toString());
+//             // });
+//         })
+//         .catch(err => {
+//             console.log('Error richiests API:', err);
 
-            return [];
-        });
-}
+//             return [];
+//         });
+// }
 
 
-function cercaPiatti() {
-    let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
-    // SI RICOLLEGA ALL'API E RISALE AI DATI CHE HA DENTRO
-    chiamataPizza(query).then(piatti => {
-        console.log(piatti);
-        risultatiPagina(piatti);
-    });
-};
+// function cercaPiatti() {
+//     let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
+//     // SI RICOLLEGA ALL'API E RISALE AI DATI CHE HA DENTRO
+//     chiamataPizza(query).then(piatti => {
+//         console.log(piatti);
+//         risultatiPagina(piatti);
+//     });
+// };
 
 
 // function cercaDishPerIngrediente() {
@@ -343,125 +343,125 @@ function cercaPiatti() {
 
 // }
 
-function cercaDishPerIngrediente() {
-    let ingrediente = document.getElementById("cercaIngrediente").value.trim();
+// function cercaDishPerIngrediente() {
+//     let ingrediente = document.getElementById("cercaIngrediente").value.trim();
 
-    if (ingrediente === "") {
-        document.getElementById("risultati").innerHTML = "Inserisci un ingrediente per la ricerca.";
-        return;
-    }
+//     if (ingrediente === "") {
+//         document.getElementById("risultati").innerHTML = "Inserisci un ingrediente per la ricerca.";
+//         return;
+//     }
 
-    fetchDishes().then(piatti => {
-        console.log("I piatti in input sono:", piatti);
-        let piattiFiltrati = cercaPiattiConIngrediente(piatti, ingrediente);
-        console.log("I piatti filtrati sono:", piattiFiltrati);
-        risultatiIngredientiPagina(piattiFiltrati);
-        stampaIngredienti(piattiFiltrati);
-    });
-}
+//     fetchDishes().then(piatti => {
+//         console.log("I piatti in input sono:", piatti);
+//         let piattiFiltrati = cercaPiattiConIngrediente(piatti, ingrediente);
+//         console.log("I piatti filtrati sono:", piattiFiltrati);
+//         risultatiIngredientiPagina(piattiFiltrati);
+//         stampaIngredienti(piattiFiltrati);
+//     });
+// }
 
 
-function cercaPiattiConIngrediente(dishes, ingredienteRichiesto) {
-    console.log("ricerca ingredienti nei piatti");
-    let nuovoArray = [];
-    dishes.forEach(piatto => {
-        console.log(`Piatto: ${piatto.nome}`);
+// function cercaPiattiConIngrediente(dishes, ingredienteRichiesto) {
+//     console.log("ricerca ingredienti nei piatti");
+//     let nuovoArray = [];
+//     dishes.forEach(piatto => {
+//         console.log(`Piatto: ${piatto.nome}`);
 
-        let trovato = false;
-        piatto.ingredienti.forEach(ingrediente => {
-            let piattoPerNome = ingrediente.name.toLowerCase();
-            let ingredientePerRichiesta = ingredienteRichiesto.toLowerCase();
-            //console.log('-  Ingrediente ' + piattoPerNome + ' è uguale a ' + ingredientePerRichiesta + '?');
-            if (piattoPerNome == ingredientePerRichiesta) {
-               trovato = true;
-              // console.log(piatto.nome + ' contiene ' + piattoPerNome);
-            }
-        });
+//         let trovato = false;
+//         piatto.ingredienti.forEach(ingrediente => {
+//             let piattoPerNome = ingrediente.name.toLowerCase();
+//             let ingredientePerRichiesta = ingredienteRichiesto.toLowerCase();
+//             //console.log('-  Ingrediente ' + piattoPerNome + ' è uguale a ' + ingredientePerRichiesta + '?');
+//             if (piattoPerNome == ingredientePerRichiesta) {
+//                trovato = true;
+//               // console.log(piatto.nome + ' contiene ' + piattoPerNome);
+//             }
+//         });
         
-        if (trovato == true) {
-            nuovoArray.push(piatto)
-        }
-    });
-    console.log("piatti validi");
-    console.log(nuovoArray);
-    return nuovoArray;
-};
+//         if (trovato == true) {
+//             nuovoArray.push(piatto)
+//         }
+//     });
+//     console.log("piatti validi");
+//     console.log(nuovoArray);
+//     return nuovoArray;
+// };
 
 
 
 // mi permette di salvarmi la lista dati che ricevo
-function chiamataPizza(query) {
-    return fetch('http://185.216.75.210:50080/api.php?q=' + query)
-        .then(response => response.json())
-        .then(json => {
-            let listaData = json.results;
+// function chiamataPizza(query) {
+//     return fetch('http://185.216.75.210:50080/api.php?q=' + query)
+//         .then(response => response.json())
+//         .then(json => {
+//             let listaData = json.results;
 
-            let listaDish = [];
-            listaData.forEach(function (res) {
-                let elementi = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
-                listaDish.push(elementi);
-            });
-            console.log(listaDish);
-            return listaDish;
+//             let listaDish = [];
+//             listaData.forEach(function (res) {
+//                 let elementi = new Dish(res.name, res.ingredients, res.restaurant, res.reviews);
+//                 listaDish.push(elementi);
+//             });
+//             console.log(listaDish);
+//             return listaDish;
 
-        })
-        .catch(err => console.log("Errore API:", err));
-}
+//         })
+//         .catch(err => console.log("Errore API:", err));
+// }
 
 
 
-function risultatiPagina(piatti) {
-    let risposte = document.getElementById("risultati"); //VADO A CREARE UNA VARIABILE CHE SI COLLEGA TRAMITE 'ID' AL DIV RISULTATI
-    risposte.innerHTML = "";   //PULISCE I CAMPI DI TESTO PRECEDENTI
-    console.log(piatti);
+// function risultatiPagina(piatti) {
+//     let risposte = document.getElementById("risultati"); //VADO A CREARE UNA VARIABILE CHE SI COLLEGA TRAMITE 'ID' AL DIV RISULTATI
+//     risposte.innerHTML = "";   //PULISCE I CAMPI DI TESTO PRECEDENTI
+//     console.log(piatti);
 
-    piatti.forEach(piatto => {
-        let mostraPagina = document.createElement('div');
-        mostraPagina.innerHTML = `  
-            <h3>Nome Piatto:${piatto.nome}</h3>
-            <p>Ristorante: ${piatto.ristorante}</p>
-            <p>Ingredienti: ${piatto.ingredienti.join(',')}</p>
-            <p>Media Recensioni: ${piatto.calculateMedia()}</p>
-            `;
-        risposte.appendChild(mostraPagina);
-    });
-};
+//     piatti.forEach(piatto => {
+//         let mostraPagina = document.createElement('div');
+//         mostraPagina.innerHTML = `  
+//             <h3>Nome Piatto:${piatto.nome}</h3>
+//             <p>Ristorante: ${piatto.ristorante}</p>
+//             <p>Ingredienti: ${piatto.ingredienti.join(',')}</p>
+//             <p>Media Recensioni: ${piatto.calculateMedia()}</p>
+//             `;
+//         risposte.appendChild(mostraPagina);
+//     });
+// };
 
-function risultatiIngredientiPagina(piatti) {
-    let risposte = document.getElementById("risultati");
-    risposte.innerHTML = "";
-    console.log(piatti);
-    if (piatti.length === 0) {
-        risposte.innerHTML = "<p>Nessun piatto trovato con questo ingrediente.</p>";
-        return;
-    };
+// function risultatiIngredientiPagina(piatti) {
+//     let risposte = document.getElementById("risultati");
+//     risposte.innerHTML = "";
+//     console.log(piatti);
+//     if (piatti.length === 0) {
+//         risposte.innerHTML = "<p>Nessun piatto trovato con questo ingrediente.</p>";
+//         return;
+//     };
 
-    piatti.forEach(piatto => {
-        let mostraPagina = document.createElement('div');
-        mostraPagina.innerHTML = `  
-            <h3>${piatto.nome}</h3>
-            <p>Ingredienti: ${piatto.ingredienti.join(', ')}</p>
-        `;
-        risposte.appendChild(mostraPagina);
-    });
-}
+//     piatti.forEach(piatto => {
+//         let mostraPagina = document.createElement('div');
+//         mostraPagina.innerHTML = `  
+//             <h3>${piatto.nome}</h3>
+//             <p>Ingredienti: ${piatto.ingredienti.join(', ')}</p>
+//         `;
+//         risposte.appendChild(mostraPagina);
+//     });
+// }
 
-function stampaIngredienti(ingredient) {
-    let risposteIngredienti = document.getElementById("risultatiIngredienti");
-    risposteIngredienti.innerHTML = "";
+// function stampaIngredienti(ingredient) {
+//     let risposteIngredienti = document.getElementById("risultatiIngredienti");
+//     risposteIngredienti.innerHTML = "";
 
-    if (ingredient.length === 0) {
-        risposte.innerHTML = "<p>Nessun ingrediente trovato!</p>";
-        return;
-    }
+//     if (ingredient.length === 0) {
+//         risposte.innerHTML = "<p>Nessun ingrediente trovato!</p>";
+//         return;
+//     }
 
-    ingredient.forEach(ingredientiPiatto => {
-        let mostraIngredienti = document.createElement('div');
-        mostraIngredienti.innerHTML = `  
-            <p>Ingredienti: ${ingredientiPiatto.join(', ')}</p>
-        `;
-        risposte.appendChild(mostraIngredienti);
-    });
-}
+//     ingredient.forEach(ingredientiPiatto => {
+//         let mostraIngredienti = document.createElement('div');
+//         mostraIngredienti.innerHTML = `  
+//             <p>Ingredienti: ${ingredientiPiatto.join(', ')}</p>
+//         `;
+//         risposte.appendChild(mostraIngredienti);
+//     });
+// }
 // CON IL FOR EACH CICLO I DATI RICEVUTI E CON CREATE ELEMENT CREO UN DIV PER OGNUNO DI ESSI MI RICOLLEGO ALL OGGETTO DISH
 // E INFINE APPENDO IN PAGINA I RISULTATI PRESI TRAMITE LA VARIABILE RISPOSTE PASSANDO COME PARAMETRO mostraPagina che ha tutto all interno
