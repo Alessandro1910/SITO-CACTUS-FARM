@@ -1,6 +1,6 @@
 import { fetchDishes, chiamataPizza } from "./api.js";
 import { cercaPiattiConIngrediente } from "./filtraPiatti.js";
-import { risultatiPagina, risultatiIngredientiPagina, stampaIngredienti} from "./gestioneDom.js";
+import { risultatiPagina } from "./gestioneDom.js";
 
 export function cercaPiatti() {
     let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
@@ -23,8 +23,8 @@ export function cercaDishPerIngrediente() {
         console.log("I piatti in input sono:", piatti);
         let piattiFiltrati = cercaPiattiConIngrediente(piatti, ingrediente);
         console.log("I piatti filtrati sono:", piattiFiltrati);
-        risultatiIngredientiPagina(piattiFiltrati);
-        stampaIngredienti(piattiFiltrati);
+        risultatiPagina(piattiFiltrati);
+        // stampaIngredienti(piattiFiltrati);
     });
 }
 
