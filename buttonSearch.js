@@ -2,7 +2,7 @@ import { fetchDishes, chiamataPizza } from "./api.js";
 import { cercaPiattiConIngrediente } from "./filtraPiatti.js";
 import { risultatiPagina, risultatiIngredientiPagina, stampaIngredienti} from "./gestioneDom.js";
 
-function cercaPiatti() {
+export function cercaPiatti() {
     let query = document.getElementById("cercaPietanze").value;   // OTTENGO IL VALORE INSERITO DALL UTENTE
     // SI RICOLLEGA ALL'API E RISALE AI DATI CHE HA DENTRO
     chiamataPizza(query).then(piatti => {
@@ -11,7 +11,7 @@ function cercaPiatti() {
     });
 };
 
-function cercaDishPerIngrediente() {
+export function cercaDishPerIngrediente() {
     let ingrediente = document.getElementById("cercaIngrediente").value.trim();
 
     if (ingrediente === "") {
@@ -28,4 +28,3 @@ function cercaDishPerIngrediente() {
     });
 }
 
-export { cercaPiatti, cercaDishPerIngrediente };
